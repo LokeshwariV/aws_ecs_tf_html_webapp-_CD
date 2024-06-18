@@ -18,7 +18,7 @@ resource "local_file" "private_key_pem" {
 }
 
 #---------------------------------------------------------
-# Create VPC, subnet , internet gateway adn route table
+# Create VPC, subnet , internet gateway and route table
 #----------------------------------------------------------
 
 resource "aws_vpc" "main" {
@@ -52,7 +52,7 @@ resource "aws_route_table_association" "a" {
 }
 
 #-----------------------------------------------------------------------
-# Create security group and attach policy to enable deployemnt from ECR
+# Create security group and attach policy to enable deployment from ECR
 #-----------------------------------------------------------------------
 
 resource "aws_security_group" "allow_http_ssh" {
@@ -169,7 +169,7 @@ resource "aws_instance" "nginx" {
 }
 
 #----------------------------------------
-# Capture pblic ip to access application
+# Capture public ip to access application
 #----------------------------------------
 
 output "instance_public_ip" {
@@ -199,10 +199,10 @@ resource "null_resource" "deploy_nginx" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("${path.module}/deployer-key.pem")
-      host        = data.aws_instance.nginx.public_ip
+      private_key = tls_private_key.example.private_key_pem
+      host        = aws_instance.nginx.public_ip
     }
   }
 
-  depends_on = [data.aws_instance.nginx]
+  depends_on = [aws_instance.nginx]
 }
