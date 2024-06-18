@@ -33,11 +33,8 @@ jobs:
         id: plan
         run: terraform plan -out=tfplan
 
-      - name: Upload deployer key
-        uses: actions/upload-artifact@v2
-        with:
-          name: deployer-key
-          path: deployer-key.pem
+      # Remove the Save deployer key step as it wasn't correctly generating an output
+      # The deployer_key should be uploaded directly if it is a static or pre-existing file.
 
       - name: Upload Terraform plan
         uses: actions/upload-artifact@v2
@@ -66,13 +63,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Download deployer key
-        uses: actions/download-artifact@v2
-        with:
-          name: deployer-key
-
-      - name: Set permissions for deployer key
-        run: chmod 600 deployer-key.pem
+      # Ensure to remove deployer-key steps if it wasn't being generated correctly
 
       - name: Download Terraform plan
         uses: actions/download-artifact@v2
@@ -83,6 +74,4 @@ jobs:
         run: terraform init # Ensure providers are initialized
 
       - name: Terraform Apply
-        env:
-          DEPLOYER_KEY_PATH: deployer-key.pem
         run: terraform apply tfplan
