@@ -33,9 +33,6 @@ jobs:
         id: plan
         run: terraform plan -out=tfplan
 
-      # Remove the Save deployer key step as it wasn't correctly generating an output
-      # The deployer_key should be uploaded directly if it is a static or pre-existing file.
-
       - name: Upload Terraform plan
         uses: actions/upload-artifact@v2
         with:
@@ -77,4 +74,4 @@ jobs:
       #   run: terraform apply tfplan
 
       - name: Terraform destroy
-        run: terraform apply tfplan
+        run: terraform destroy tfplan
