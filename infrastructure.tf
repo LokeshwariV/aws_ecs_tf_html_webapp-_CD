@@ -139,9 +139,9 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
   role = aws_iam_role.ec2_role.name
 }
 
-#-------------
-# Create EC2
-#-------------
+#------------------------------------
+# Create EC2 and deploy latest image
+#------------------------------------
 
 resource "aws_instance" "nginx" {
   ami                         = data.aws_ami.amazon_linux_2.id
