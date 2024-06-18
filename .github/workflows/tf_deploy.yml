@@ -52,7 +52,7 @@ jobs:
     name: Deploy Docker Image
     runs-on: ubuntu-latest
     needs: provision
-    if: github.event.inputs.deploy == 'true' # Add condition
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
