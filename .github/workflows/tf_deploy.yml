@@ -33,9 +33,6 @@ jobs:
         id: plan
         run: terraform plan -out=tfplan
 
-      - name: Save deployer key
-        run: echo "${{ steps.plan.outputs.deployer_key }}" > deployer-key.pem
-
       - name: Upload deployer key
         uses: actions/upload-artifact@v2
         with:
@@ -81,6 +78,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: tfplan
+
+      - name: Terraform Init
+        run: terraform init # Ensure providers are initialized
 
       - name: Terraform Apply
         env:
