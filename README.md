@@ -1,4 +1,6 @@
-# aws_ecs_tf_html_webapp_CD
+# Contineous Delivery of Containerised Webapp
+
+This repository represents the Continuous Delivery (CD) part of a containerized web application. I am using terraform to build and deploy the containerised webapp. It utilizes GitHub Actions to build a terraform code and save the plan. Once the plan is verified we can manually trigger the deployment
 
 ## Deploy Containerized application on AWS
 
