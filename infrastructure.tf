@@ -134,11 +134,6 @@ resource "aws_iam_role_policy" "ecr_policy" {
   })
 }
 
-resource "aws_iam_instance_profile" "ec2_instance_profile" {
-  name = "EC2InstanceProfile"
-  role = aws_iam_role.ec2_role.name
-}
-
 #------------------------------------
 # Create EC2 and deploy latest image
 #------------------------------------
@@ -149,7 +144,7 @@ resource "aws_instance" "nginx" {
   subnet_id                   = aws_subnet.subnet.id
   key_name                    = aws_key_pair.deployer.key_name
   associate_public_ip_address = true
-  iam_instance_profile        = aws_iam_instance_profile.ec2_instance_profile.name
+  iam_instance_profile        = "EC2InstanceProfile"
   vpc_security_group_ids      = [aws_security_group.allow_http_ssh.id]
 
   user_data = <<-EOF
