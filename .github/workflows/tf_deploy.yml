@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   provision:
@@ -60,18 +60,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # Ensure to remove deployer-key steps if it wasn't being generated correctly
-
       - name: Download Terraform plan
         uses: actions/download-artifact@v2
         with:
           name: tfplan
 
       - name: Terraform Init
-        run: terraform init # Ensure providers are initialized
+        run: terraform init
 
-      # - name: Terraform Apply
-      #   run: terraform apply tfplan
-
-      - name: Terraform destroy
-        run: terraform destroy
+      - name: Terraform Apply
+        run: terraform apply tfplan
